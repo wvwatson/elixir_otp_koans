@@ -7,36 +7,37 @@ defmodule ElixirOtpKoans.KoansServer do
   # test 2 make a gen server
   use GenServer.Behaviour
 
-  # test 3, test 4
+  # test 3
   def start_link do
     :gen_server.start_link({:local, __MODULE__}, __MODULE__, [], [])
   end
 
-  # test 5
+  # test 4
   def init([]) do
     state = State.new
     {:ok, state}
   end
   
-  # test 6
+  # test 5
   def handle_cast(:stop, state) do
-    IO.puts "DEBUG: hand_cast :stop"
     {:stop, :normal, state}
   end
 
+  # test 5
   def stop(pid) do
-    IO.puts "stopping"
     :gen_server.cast(pid, :stop)
   end 
 
-# # test 7
-#  def start_link(state) do
-#    :gen_server.start_link({:local, __MODULE__}, __MODULE__, [state], [])
-#  end
-# def init([veggies]) do
-#  state = State.new(veggies: veggies)
-#  {:ok, state}
-# end
+ # test 6
+  def start_link(state) do
+    :gen_server.start_link({:local, __MODULE__}, __MODULE__, [state], [])
+  end
+
+  # test 7
+  def init([veggies]) do
+   state = State.new(veggies: veggies)
+   {:ok, state}
+  end
 
 
 

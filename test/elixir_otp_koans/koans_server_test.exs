@@ -15,7 +15,9 @@ defmodule KoansServerTest do
   #    {:error,{:error, {:already_started, pid}}} -> {:ok, setuppid: pid}
   #    other -> Lager.debug "ElixirOtpKoans.ScApp.start ret: #{inspect(other)}"; other
   #  end
-  #end
+  #en
+  
+
 
   ###### koans start
 
@@ -26,28 +28,31 @@ defmodule KoansServerTest do
   
   # test 2
   test "koans server should be defined as a gen server" do
-    :gen_server.start_link(ElixirOtpKoans.KoansServer, [], [])
+    
+    case :gen_server.start_link(ElixirOtpKoans.KoansServer, [], []) do
+      {:ok, pid} -> assert is_pid(pid)
+      {:error, {:already_started, pid}} -> assert is_pid(pid) 
+      other -> assert false == "should have received :ok or :error and a pid" 
+    end
+    :gen_server.cast(pid, :stop)
   end
 
-  # test 3
-  test "koans server should have a start_link function" do
-    start_link
-  end
-
-  # test 4 
-  test "koans server should start a local server" do
+  # test 3 
+  test "koans server should have a start_link funciton that starts a local server" do
     response = start_link
     case response do
       {:ok, pid} -> assert is_pid(pid)
       {:error, {:already_started, pid}} -> assert is_pid(pid) 
       other -> assert false == "should have received :ok or :error and a pid" 
     end
+    :gen_server.cast(pid, :stop)
   end
-  # test 5
+  
+  # test 4
   test "koans server should have an init function" do
     init([])
   end 
-  # test 6
+  # test 5
   test "koans server should be able to stop" do
     response = start_link
     case response do
@@ -59,26 +64,29 @@ defmodule KoansServerTest do
     assert r == :ok
     assert {:normal, _} = catch_exit(:sys.get_status(pid))
   end
-  ## test 7 
-  #test "koans server start_link function should accept initial state" do
-  #  response = start_link("cucumber")
-  #  case response do
-  #    {:ok, pid} -> assert is_pid(pid)
-  #    {:error, {:already_started, pid}} -> assert is_pid(pid) 
-  #    other -> assert false == "should have received :ok or :error and a pid" 
-  #  end
-  #end
-  ## test 7
-  #test "koans server should have an init function that accepts state" do
-  #  :gen_server.cast(ElixirOtpKoans.KoansServer, :stop) 
-  #  response = start_link("cucumber")
-  #  case response do
-  #    {:ok, pid} -> assert is_pid(pid)
-  #    {:error, {:already_started, pid}} -> assert is_pid(pid) 
-  #  end
-  #  status = :sys.get_status(pid)
-  #  assert {:status, _, {:module, :gen_server}, [["$ancestors": [_], "$initial_call": {ElixirOtpKoans.KoansServer, :init, 1}], :running, _, [], [header: _, data: _, data: [{_, ElixirOtpKoans.KoansServer.State[veggies: "cucumber"]}]]]} = status
-  #end 
+
+  # test 6 
+  test "koans server start_link function should accept initial state" do
+    response = start_link("cucumber")
+    case response do
+      {:ok, pid} -> assert is_pid(pid)
+      {:error, {:already_started, pid}} -> assert is_pid(pid) 
+      other -> assert false == "should have received :ok or :error and a pid" 
+    end
+    r = ElixirOtpKoans.KoansServer.stop(pid)
+  end
+
+  # test 7
+  test "koans server should have an init function that accepts state" do
+    response = start_link("cucumber")
+    IO.puts inspect(response)
+    case response do
+      {:ok, pid} -> assert is_pid(pid)
+      {:error, {:already_started, pid}} -> assert is_pid(pid) 
+    end
+    status = :sys.get_status(pid)
+    assert {:status, _, {:module, :gen_server}, [["$ancestors": [_], "$initial_call": {ElixirOtpKoans.KoansServer, :init, 1}], :running, _, [], [header: _, data: _, data: [{_, ElixirOtpKoans.KoansServer.State[veggies: "cucumber"]}]]]} = status
+  end 
 
   # test 6
   #test "koans server should have an init function" do
