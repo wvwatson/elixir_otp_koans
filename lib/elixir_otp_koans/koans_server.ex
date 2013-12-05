@@ -1,7 +1,7 @@
 # test 1 make a module
 defmodule ElixirOtpKoans.KoansServer do
 
-  # test 6
+  # test 7
   defrecord State, veggies: nil
 
   # test 2 make a gen server
@@ -12,12 +12,6 @@ defmodule ElixirOtpKoans.KoansServer do
     :gen_server.start_link({:local, __MODULE__}, __MODULE__, [], [])
   end
 
-  # test 4
-  def init([]) do
-    state = State.new
-    {:ok, state}
-  end
-  
   # test 5
   def handle_cast(:stop, state) do
     IO.puts "DEBUG: hand_cast :stop"
@@ -34,6 +28,12 @@ defmodule ElixirOtpKoans.KoansServer do
     :gen_server.start_link({:local, __MODULE__}, __MODULE__, [state], [])
   end
 
+ # test 7
+  def init([]) do
+    state = State.new
+    {:ok, state}
+  end
+  
   # test 7
   def init([veggies]) do
    state = State.new(veggies: veggies)
