@@ -73,7 +73,7 @@ defmodule KoansServerTest do
       {:error, {:already_started, pid}} -> assert is_pid(pid) 
       other -> assert false == "should have received :ok or :error and a pid" 
     end
-    r = ElixirOtpKoans.KoansServer.stop(pid)
+    ElixirOtpKoans.KoansServer.stop(pid)
   end
 
   # test 7
@@ -86,6 +86,20 @@ defmodule KoansServerTest do
     end
     status = :sys.get_status(pid)
     assert {:status, _, {:module, :gen_server}, [["$ancestors": [_], "$initial_call": {ElixirOtpKoans.KoansServer, :init, 1}], :running, _, [], [header: _, data: _, data: [{_, ElixirOtpKoans.KoansServer.State[veggies: "cucumber"]}]]]} = status
+    ElixirOtpKoans.KoansServer.stop(pid)
+  end 
+
+  # test 8 
+  test "koans server should have a handle cast that allows you to fetch its state " do
+    response = start_link("cucumber")
+    IO.puts inspect(response)
+    case response do
+      {:ok, pid} -> assert is_pid(pid)
+      {:error, {:already_started, pid}} -> assert is_pid(pid) 
+    end
+    ret = :gen_server.call(pid, :fetch)
+    assert ret == ElixirOtpKoans.KoansServer.State[veggies: "cucumber"]
+    ElixirOtpKoans.KoansServer.stop(pid)
   end 
 
   # test 6

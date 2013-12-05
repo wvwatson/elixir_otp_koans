@@ -20,6 +20,7 @@ defmodule ElixirOtpKoans.KoansServer do
   
   # test 5
   def handle_cast(:stop, state) do
+    IO.puts "DEBUG: hand_cast :stop"
     {:stop, :normal, state}
   end
 
@@ -39,6 +40,9 @@ defmodule ElixirOtpKoans.KoansServer do
    {:ok, state}
   end
 
-
+  # test 8
+  def handle_call(:fetch, _from, state) do
+    {:reply, state, state}
+  end
 
 end
