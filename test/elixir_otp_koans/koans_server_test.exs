@@ -92,7 +92,6 @@ defmodule KoansServerTest do
   # test 8 
   test "koans server should have a handle cast that allows you to fetch its state " do
     response = start_link("cucumber")
-    IO.puts inspect(response)
     case response do
       {:ok, pid} -> assert is_pid(pid)
       {:error, {:already_started, pid}} -> assert is_pid(pid) 
@@ -102,6 +101,17 @@ defmodule KoansServerTest do
     ElixirOtpKoans.KoansServer.stop(pid)
   end 
 
+  # test 9 
+  test "koans server should have an api that wraps the fetch call " do
+    response = start_link("cucumber")
+    case response do
+      {:ok, pid} -> assert is_pid(pid)
+      {:error, {:already_started, pid}} -> assert is_pid(pid) 
+    end
+    ret = fetch(pid) 
+    assert ret == ElixirOtpKoans.KoansServer.State[veggies: "cucumber"]
+    ElixirOtpKoans.KoansServer.stop(pid)
+  end 
   # test 6
   #test "koans server should have an init function" do
   #  record = Module.get_attribute ExlistOtpKoans.KoansServer, :state == ElixirOtpKoans.KoansServer.State[veggies: nil]

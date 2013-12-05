@@ -45,4 +45,9 @@ defmodule ElixirOtpKoans.KoansServer do
     {:reply, state, state}
   end
 
+  # test 9
+  def fetch(pid) do
+    ret = :gen_server.call(pid, :fetch)
+  end
+
 end
