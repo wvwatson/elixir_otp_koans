@@ -41,13 +41,7 @@ defmodule KoansServerTest do
     clean_up(pid)
   end
   
-  ## not needed test old 4
-
-  #test "koans server should have an init function" do
-  #  init([])
-  #end 
-
-  # test 5
+  # test 4
   test "koans server should an api function that stops the server" do
     response = start_link
     case response do
@@ -55,12 +49,18 @@ defmodule KoansServerTest do
       {:error, {:already_started, pid}} -> assert is_pid(pid) 
       other -> assert false == "should have received :ok or :error and a pid" 
     end
+     # test 4.a
+     # Leave the next line commented out normally, but run it 
+     # with no handle cast and then with a handle cast and check the 
+     # IO puts output. This demonstrates the default stop handler.
+     # r = :gen_server.cast(pid, :stop)
     r = ElixirOtpKoans.KoansServer.stop(pid)
-    assert r == :ok
+    assert r == :ok 
+    # test 4.a default handler does not throw an exit
     assert {:normal, _} = catch_exit(:sys.get_status(pid))
   end
 
-  # test 6 
+  # test 5 
   test "koans server start_link function should accept initial state" do
     response = start_link("cucumber")
     case response do
@@ -71,7 +71,7 @@ defmodule KoansServerTest do
     ElixirOtpKoans.KoansServer.stop(pid)
   end
 
-  # test 7
+  # test 6
   test "koans server should have an init function that accepts state" do
     IO.puts "Delay" 
     IO.puts "Delay" 
@@ -88,7 +88,7 @@ defmodule KoansServerTest do
     ElixirOtpKoans.KoansServer.stop(pid)
   end 
 
-  # test 8 
+  # test 7 
   test "koans server should have a handle cast that allows you to fetch its state " do
     response = start_link("cucumber")
     case response do
@@ -100,7 +100,7 @@ defmodule KoansServerTest do
     ElixirOtpKoans.KoansServer.stop(pid)
   end 
 
-  # test 9 
+  # test 8 
   test "koans server should have an api that wraps the fetch call " do
     response = start_link("cucumber")
     case response do
