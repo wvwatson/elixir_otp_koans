@@ -1,11 +1,19 @@
 # test 1 make a module
 defmodule ElixirOtpKoans.KoansServer do
 
- # test2 make a gen server
+ # test 6
+ defrecord State, veggies: nil
+
+ # test 2 make a gen server
  use GenServer.Behaviour
 
- # test3
+ # test 3, test 4
  def start_link do
+   :gen_server.start_link({:local, __MODULE__}, __MODULE__, [], [])
+ end
+
+ # test 5
+ def init([]) do
  end
 
 

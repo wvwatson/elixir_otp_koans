@@ -34,15 +34,26 @@ defmodule KoansServerTest do
     start_link
   end
 
-  ## test 4 
-  #test "koans server should start a local server" do
-  #  response = start_link
-  #  case response do
-  #    {:ok, pid} -> assert is_pid(pid)
-  #    {:error, {:already_started, pid}} -> assert is_pid(pid) 
-  #    other -> assert false
-  #  end
+  # test 4 
+  test "koans server should start a local server" do
+    response = start_link
+    case response do
+      {:ok, pid} -> assert is_pid(pid)
+      {:error, {:already_started, pid}} -> assert is_pid(pid) 
+      other -> assert false == "should have received :ok or :error and a pid" 
+    end
+  end
+  # test 5
+  test "koans server should have an init function" do
+    init([])
+  end 
+
+  # test 6
+  #test "koans server should have an init function" do
+  #  record = Module.get_attribute ExlistOtpKoans.KoansServer, :state == ElixirOtpKoans.KoansServer.State[veggies: nil]
+  #  assert record == ElixirOtpKoans.KoansServer.State[veggies: nil]
   #end
+  
 
 
 
