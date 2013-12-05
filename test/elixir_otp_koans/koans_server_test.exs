@@ -48,26 +48,38 @@ defmodule KoansServerTest do
     init([])
   end 
   # test 6
-  test "koans server start_link function should accept initial state" do
-    response = start_link("veggies")
+  test "koans server should be able to stop" do
+    response = start_link
     case response do
       {:ok, pid} -> assert is_pid(pid)
       {:error, {:already_started, pid}} -> assert is_pid(pid) 
       other -> assert false == "should have received :ok or :error and a pid" 
     end
+    r = ElixirOtpKoans.KoansServer.stop(pid)
+    assert r == :ok
+    assert {:normal, _} = catch_exit(:sys.get_status(pid))
   end
-  ## test 6
-  #test "koans server init function should accept state" do
+  ## test 7 
+  #test "koans server start_link function should accept initial state" do
+  #  response = start_link("cucumber")
+  #  case response do
+  #    {:ok, pid} -> assert is_pid(pid)
+  #    {:error, {:already_started, pid}} -> assert is_pid(pid) 
+  #    other -> assert false == "should have received :ok or :error and a pid" 
+  #  end
+  #end
+  ## test 7
+  #test "koans server should have an init function that accepts state" do
+  #  :gen_server.cast(ElixirOtpKoans.KoansServer, :stop) 
   #  response = start_link("cucumber")
   #  case response do
   #    {:ok, pid} -> assert is_pid(pid)
   #    {:error, {:already_started, pid}} -> assert is_pid(pid) 
   #  end
-
-  #  init(["cucumber"])
   #  status = :sys.get_status(pid)
-  #      assert {:status, _, {:module, :gen_server}, [["$ancestors": [_], "$initial_call": {ElixirOtpKoans.KoansServer, :init, 1}], :running, _, [], [header: 'Status for generic server Elixir.Rater.QuoteNumberServer', data: [{'Status', :running}, {'Parent', _}, {'Logged events', []}], data: [{'State', ElixirOtpKoans.KoansServer.State[veggies: "cucumber"]}]]]} = status
+  #  assert {:status, _, {:module, :gen_server}, [["$ancestors": [_], "$initial_call": {ElixirOtpKoans.KoansServer, :init, 1}], :running, _, [], [header: _, data: _, data: [{_, ElixirOtpKoans.KoansServer.State[veggies: "cucumber"]}]]]} = status
   #end 
+
   # test 6
   #test "koans server should have an init function" do
   #  record = Module.get_attribute ExlistOtpKoans.KoansServer, :state == ElixirOtpKoans.KoansServer.State[veggies: nil]
