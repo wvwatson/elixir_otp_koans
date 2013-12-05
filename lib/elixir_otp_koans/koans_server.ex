@@ -1,7 +1,7 @@
 ## test 1 make a module
 defmodule ElixirOtpKoans.KoansServer do
-#
-#  # test 6
+
+  # test 6
   defrecord State, veggies: nil
 
   # test 2 make a gen server

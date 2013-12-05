@@ -73,10 +73,10 @@ defmodule KoansServerTest do
 
   # test 6
   test "koans server should have an init function that accepts state" do
-    IO.puts "Delay" 
-    IO.puts "Delay" 
-    IO.puts "Delay" 
-    IO.puts "Delay" 
+    IO.puts "Delay for a completely new process id" 
+    IO.puts "Delay for a completely new process id" 
+    IO.puts "Delay for a completely new process id" 
+    IO.puts "Delay for a completely new process id" 
     response = start_link("cucumber")
     IO.puts inspect(response)
     case response do
