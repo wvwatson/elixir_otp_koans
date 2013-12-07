@@ -1,4 +1,6 @@
-# OtpSource
+# Elixir OTP Koans
+# Uncomment the tests one at a time and trying to make them pass while learning about OTP
+# Working code included so that you don't lose your mind
 
 This is a project built with Elixir that uses Dynamo to serve web requests.
 
